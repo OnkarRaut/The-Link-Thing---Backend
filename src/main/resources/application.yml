@@ -1,0 +1,9 @@
+swagger:
+  api:
+    enabled: true
+    title: The Link Thing
+    description: this service provides the apis for the link thing operations
+    version: 1.0.0
+  docs:
+    contact:
+      name: Onkar Raut
