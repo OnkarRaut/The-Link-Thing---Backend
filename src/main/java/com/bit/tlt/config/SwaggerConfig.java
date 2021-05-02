@@ -33,20 +33,20 @@ public class SwaggerConfig {
     @Bean
     public Docket docket() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build();
+            .apiInfo(apiInfo())
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("com.bit.tlt.controller"))
+            .paths(PathSelectors.any())
+            .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .contact(contact())
-                .version(apiVersion)
-                .title(apiTitle)
-                .description(apiDescription)
-                .build();
+            .contact(contact())
+            .version(apiVersion)
+            .title(apiTitle)
+            .description(apiDescription)
+            .build();
 
     }
 
