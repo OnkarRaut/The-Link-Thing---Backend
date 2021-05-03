@@ -5,11 +5,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.data.util.Pair;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,6 +39,18 @@ public class JWTUtil {
             .setSigningKey(key)
             .parseClaimsJws(Objects.requireNonNull(token))
             .getBody();
+    }
+
+    public static String extractClaim(String token, String key, Function<Claims, String> function) {
+        return function.apply(extractClaims(token, key));
+    }
+
+    public static String encode(String string) {
+        return Base64.encodeBase64String(string.getBytes());
+    }
+
+    public static String decode(String string) {
+        return new String(Base64.decodeBase64(string));
     }
 
 }

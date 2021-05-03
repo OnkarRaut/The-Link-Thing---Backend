@@ -4,16 +4,18 @@ import com.bit.tlt.model.AuthenticationRequest;
 import com.bit.tlt.model.AuthenticationResponse;
 import com.bit.tlt.service.AuthenticationService;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
+
 @Log4j2
+@ConditionalOnProperty(name = "security.auth.enabled", havingValue = "true")
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {

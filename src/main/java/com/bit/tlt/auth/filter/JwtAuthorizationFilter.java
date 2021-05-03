@@ -1,6 +1,7 @@
 package com.bit.tlt.auth.filter;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.bit.tlt.config.SecurityConfiguration;
 import com.bit.tlt.util.JWTUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -10,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +29,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 @Log4j2
+@ConditionalOnProperty(name = "security.auth.enabled", havingValue = "true")
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 

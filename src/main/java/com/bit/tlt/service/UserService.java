@@ -42,4 +42,9 @@ public class UserService implements UserDetailsService {
             .authorities(Collections.emptyList())
             .build();
     }
+
+    public Long findUserIdByUsername(String username) {
+        return this.userRepository.findIdByUsername(username);
+    }
+
 }

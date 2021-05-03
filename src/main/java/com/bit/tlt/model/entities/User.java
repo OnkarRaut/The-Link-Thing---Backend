@@ -1,8 +1,10 @@
 package com.bit.tlt.model.entities;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -27,5 +29,9 @@ public class User {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false)
+    private Date createdAt;
 
 }
