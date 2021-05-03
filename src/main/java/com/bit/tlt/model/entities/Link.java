@@ -35,9 +35,4 @@ public class Link {
     @Column(name = "created_by", nullable = false)
     private Long createdBy;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @JsonBackReference
-    @JoinColumn(name = "created_by", referencedColumnName = "id", insertable = false, updatable = false)
-    private User user;
-
 }

@@ -4,7 +4,6 @@ import com.bit.tlt.model.Link;
 import com.bit.tlt.model.TltResponse;
 import com.bit.tlt.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +16,12 @@ public class LinksController {
 
     private LinkService linkService;
 
-    @Value("${security.auth.key}")
-    private String key;
-
     @Autowired
     public LinksController(LinkService linkService) {
         this.linkService = linkService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<TltResponse<List<Link>>> getLinks() {
         return ResponseEntity.ok(
                 TltResponse.<List<Link>>builder()
@@ -47,7 +43,13 @@ public class LinksController {
         );
     }
 
-    @GetMapping("/me")
+    @DeleteMapping("/{link-id}")
+    public ResponseEntity<Void> deleteLink(@PathVariable("link-id") Long linkId, @RequestHeader("user-ref") String userRef) {
+        this.linkService.deleteLink(linkId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping
     public ResponseEntity<TltResponse<List<Link>>> getMyLinks(@RequestHeader("user-ref") String userRef) {
         return ResponseEntity.ok(
                 TltResponse.<List<Link>>builder()

@@ -54,4 +54,8 @@ public class LinkService {
         return this.dozerMapper.map(savedLink, com.bit.tlt.model.Link.class);
     }
 
+    public void deleteLink(Long linkId) {
+        this.linkRepository.deleteById(linkId);
+    }
+
 }

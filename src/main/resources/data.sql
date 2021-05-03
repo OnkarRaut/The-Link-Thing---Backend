@@ -26,11 +26,8 @@ CREATE SEQUENCE link_table_sequence MINVALUE 1
     NOMAXVALUE
     INCREMENT BY 1;
 
-INSERT INTO users (username, email, first_name, last_name, password)
-    values ( 'test', 'test@test.com', 'test_name', 'test_last', 'test_pass' );
-
-INSERT INTO users (username, email, first_name, last_name, password)
-values ( 'testother', 'testother@test.com', 'test_name', 'test_last', 'test_pass' );
+INSERT INTO users (username, email, first_name, last_name, password, created_at)
+    values ( 'test', 'test@test.com', 'test_name', 'test_last', 'test_pass', CURRENT_TIMESTAMP);
 
 INSERT INTO link (id, name, url, created_at, updated_at, created_by)
     VALUES ( link_table_sequence.nextval, 'this is a demo name', 'http://localhost:8080/test-app/some-path', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1 );
