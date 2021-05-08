@@ -1,33 +1,96 @@
-DROP TABLE IF EXISTS link;
-DROP TABLE IF EXISTS users;
-DROP SEQUENCE IF EXISTS link_table_sequence;
-
-CREATE TABLE users (
-    id LONG AUTO_INCREMENT  PRIMARY KEY,
-    username VARCHAR(250) NOT NULL UNIQUE,
-    email VARCHAR(250) NOT NULL UNIQUE,
-    first_name VARCHAR(250) NOT NULL,
-    last_name VARCHAR(250) NOT NULL,
-    password VARCHAR(250) NOT NULL,
-    created_at TIMESTAMP NOT NULL
+create table USER
+(
+    ID         LONG auto_increment,
+    USERNAME   VARCHAR2  not null,
+    EMAIL      VARCHAR2  not null,
+    PASSWORD   VARCHAR2  not null,
+    CREATED_AT TIMESTAMP not null
 );
 
-CREATE TABLE link (
-    id LONG PRIMARY KEY,
-    name VARCHAR(250) NOT NULL,
-    url VARCHAR(250) NOT NULL,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
-    created_by LONG NOT NULL,
-    FOREIGN KEY (created_by) REFERENCES users(id)
+create unique index USER_EMAIL_INDEX
+    on USER (EMAIL);
+
+create unique index USER_ID_INDEX
+    on USER (ID);
+
+create unique index USER_USERNAME_INDEX
+    on USER (USERNAME);
+
+create table CATEGORY
+(
+    ID            LONG auto_increment,
+    NAME          VARCHAR2 not null,
+    CREATED_BY_FK LONG     not null,
+    constraint CATEGORY_CREATED_BY
+        foreign key (CREATED_BY_FK) references USER (ID)
+            on delete set default
 );
 
-CREATE SEQUENCE link_table_sequence MINVALUE 1
-    NOMAXVALUE
-    INCREMENT BY 1;
+create unique index CATEGORY_ID_INDEX
+    on CATEGORY (ID);
 
-INSERT INTO users (username, email, first_name, last_name, password, created_at)
-    values ( 'test', 'test@test.com', 'test_name', 'test_last', 'test_pass', CURRENT_TIMESTAMP);
+alter table CATEGORY
+    add constraint CATEGORY_PK
+        primary key (ID);
 
-INSERT INTO link (id, name, url, created_at, updated_at, created_by)
-    VALUES ( link_table_sequence.nextval, 'this is a demo name', 'http://localhost:8080/test-app/some-path', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 1 );
+create table LINK
+(
+    ID            LONG auto_increment,
+    NAME          VARCHAR2       not null,
+    URL           VARCHAR2       not null,
+    CREATED_AT    TIMESTAMP      not null,
+    UPDATED_AT    VARCHAR2       not null,
+    CREATED_BY_FK LONG default 1 not null,
+    CATEGORY_FK   LONG,
+    constraint LINK_CATEGORY_FK
+        foreign key (CATEGORY_FK) references CATEGORY (ID),
+    constraint LINK_CREATED_BY
+        foreign key (CREATED_BY_FK) references USER (ID)
+            on delete set default
+);
+
+create unique index LINK_ID_INDEX
+    on LINK (ID);
+
+alter table LINK
+    add constraint LINK_PK
+        primary key (ID);
+
+create table LINK_GROUP
+(
+    id long auto_increment,
+    name varchar2 not null,
+    created_by_fk long not null,
+    updated_by_fk long not null,
+    created_at timestamp not null,
+    updated_at timestamp not null,
+    constraint created_by_fk
+        foreign key (created_by_fk) references USER (id),
+    constraint updated_by_fk
+        foreign key (updated_by_fk) references USER (id)
+);
+
+create unique index LINK_GROUP_ID_INDEX
+    on LINK_GROUP (id);
+
+alter table LINK_GROUP
+    add constraint LINK_GROUP_PK
+        primary key (id);
+
+create table USER_LINKS
+(
+    id long auto_increment,
+    link_fk long default 0 not null,
+    user_fk long default 0 not null,
+    constraint link_fk
+        foreign key (link_fk) references LINK (id),
+    constraint user_fk
+        foreign key (user_fk) references USER (id)
+);
+
+create unique index USER_LINKS_ID_INDEX
+    on USER_LINKS (id);
+
+alter table USER_LINKS
+    add constraint USER_LINKS_PK
+        primary key (id);
