@@ -1,3 +1,9 @@
+DROP TABLE IF EXISTS USER;
+DROP TABLE IF EXISTS CATEGORY;
+DROP TABLE IF EXISTS LINK;
+DROP TABLE IF EXISTS LINK_GROUP;
+DROP TABLE IF EXISTS USER_LINKS;
+
 create table USER
 (
     ID         LONG auto_increment,
@@ -39,7 +45,7 @@ create table LINK
     NAME          VARCHAR2       not null,
     URL           VARCHAR2       not null,
     CREATED_AT    TIMESTAMP      not null,
-    UPDATED_AT    VARCHAR2       not null,
+    UPDATED_AT    TIMESTAMP      not null,
     CREATED_BY_FK LONG default 1 not null,
     CATEGORY_FK   LONG,
     constraint LINK_CATEGORY_FK

@@ -1,6 +1,5 @@
 package com.bit.tlt.service;
 
-import com.bit.tlt.model.entities.Link;
 import com.bit.tlt.repository.LinkRepository;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;

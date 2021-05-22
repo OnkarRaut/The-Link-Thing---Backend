@@ -1,6 +1,5 @@
 package com.bit.tlt.service;
 
-import com.bit.tlt.model.entities.User;
 import com.bit.tlt.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

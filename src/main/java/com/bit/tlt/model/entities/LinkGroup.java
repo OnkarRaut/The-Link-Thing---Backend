@@ -6,13 +6,12 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-public class Link {
+@Table(name = "LINK_GROUP", schema = "TLT", catalog = "THELINKTHING")
+public class LinkGroup {
     private Long id;
     private String name;
-    private String url;
     private Date createdAt;
     private Date updatedAt;
-    private Category categoryByCategoryFk;
 
     @Id
     @Column(name = "ID", nullable = false)
@@ -32,16 +31,6 @@ public class Link {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Basic
-    @Column(name = "URL", nullable = false, length = -1)
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     @Basic
@@ -68,26 +57,15 @@ public class Link {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Link link = (Link) o;
-        return Objects.equals(id, link.id) &&
-                Objects.equals(name, link.name) &&
-                Objects.equals(url, link.url) &&
-                Objects.equals(createdAt, link.createdAt) &&
-                Objects.equals(updatedAt, link.updatedAt);
+        LinkGroup linkGroup = (LinkGroup) o;
+        return Objects.equals(id, linkGroup.id) &&
+                Objects.equals(name, linkGroup.name) &&
+                Objects.equals(createdAt, linkGroup.createdAt) &&
+                Objects.equals(updatedAt, linkGroup.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, url, createdAt, updatedAt);
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "CATEGORY_FK", referencedColumnName = "ID")
-    public Category getCategoryByCategoryFk() {
-        return categoryByCategoryFk;
-    }
-
-    public void setCategoryByCategoryFk(Category categoryByCategoryFk) {
-        this.categoryByCategoryFk = categoryByCategoryFk;
+        return Objects.hash(id, name, createdAt, updatedAt);
     }
 }
